@@ -35,7 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   table_calendar: ^3.0.9  # 250325
-
+  shared_preferences: ^2.2.2 #250327
 dev_dependencies:
   flutter_test:
     sdk: flutter
