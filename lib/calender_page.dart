@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_a/services/notification_service.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import 'work_input_page.dart';
 import 'storage/work_schedule_storage.dart';
 
@@ -32,6 +32,18 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void _saveWorkSchedule() {
     WorkScheduleStorage.save(_workSchedule);
+  }
+
+  DateTime _calculateAlarmTime(DateTime workDay, String workType) {
+    // 주간 06:00, 야간 17:00, 오프는 알람 없음
+    switch (workType) {
+      case 'D(주간)':
+        return DateTime(workDay.year, workDay.month, workDay.day, 6, 0);
+      case 'N(야간)':
+        return DateTime(workDay.year, workDay.month, workDay.day, 17, 0);
+      default:
+        return DateTime.now(); // 알람 예약 안함
+    }
   }
 
   @override
@@ -122,6 +134,24 @@ class _CalendarPageState extends State<CalendarPage> {
                 _workSchedule[_stripTime(selectedDay)] = workType;
               });
               _saveWorkSchedule();
+            }
+            // 알람
+            if (workType != null) {
+              final day = _stripTime(selectedDay);
+
+              setState(() {
+                _workSchedule[day] = workType;
+              });
+              _saveWorkSchedule();
+
+              // 알람 자동 예약
+              DateTime alarmTime = _calculateAlarmTime(day, workType);
+              await NotificationService.scheduleAlarm(
+                id: day.hashCode, // 고유 ID
+                dateTime: alarmTime,
+                title: '기상 알람',
+                body: '$workType 근무 - ${alarmTime.hour}시 ${alarmTime.minute}분에 기상!',
+              );
             }
           },
         ),
