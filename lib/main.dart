@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project_a/calender_page.dart';
+import 'services/notification_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.init(); // 알람 초기화
   runApp(MyApp());
 }
 
