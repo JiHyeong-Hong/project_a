@@ -4,6 +4,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'work_input_page.dart';
 import 'storage/work_schedule_storage.dart';
 
+import 'alarm/alarm_manager.dart';
+
 class CalendarPage extends StatefulWidget {
   @override
   _CalendarPageState createState() => _CalendarPageState();
@@ -118,10 +120,23 @@ class _CalendarPageState extends State<CalendarPage> {
             );
 
             if (workType != null) {
+              final strippedDate = _stripTime(selectedDay);
+
               setState(() {
-                _workSchedule[_stripTime(selectedDay)] = workType;
+                _workSchedule[strippedDate] = workType;
               });
               _saveWorkSchedule();
+
+              // 알람 설정
+              DateTime alarmTime = DateTime(
+                strippedDate.year,
+                strippedDate.month,
+                strippedDate.day,
+                workType.startsWith('D') ? 6 : (workType.startsWith('N') ? 17 : 9),
+                0,
+              );
+
+              AlarmManager.setAlarm(alarmTime); // native alarm 호출
             }
           },
         ),
