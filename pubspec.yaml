@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   table_calendar: ^3.0.9  # 250325 달력
   shared_preferences: ^2.2.2 #250327 근무정보저장
-  flutter_local_notifications: 15.1.1 #250327 알람
+  flutter_local_notifications: 17.2.4 #250327 알람
 dev_dependencies:
   flutter_test:
     sdk: flutter
