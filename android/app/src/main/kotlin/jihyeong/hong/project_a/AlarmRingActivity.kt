@@ -7,11 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.view.Gravity
+import android.widget.LinearLayout
+
 
 class AlarmRingActivity : Activity() {
     private var ringtone: Ringtone? = null
 
-    fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val textView = TextView(this).apply {
