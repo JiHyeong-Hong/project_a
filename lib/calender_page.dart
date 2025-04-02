@@ -3,7 +3,6 @@ import 'package:project_a/services/notification_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'work_input_page.dart';
 import 'storage/work_schedule_storage.dart';
-
 import 'alarm/alarm_manager.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -170,6 +169,18 @@ class _CalendarPageState extends State<CalendarPage> {
             }
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final now = DateTime.now();
+          final testTime = now.add(Duration(seconds: 10)); // 10초 뒤
+          AlarmManager.setAlarm(testTime);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('🔔 테스트 알람 설정: ${testTime.hour}시${testTime.minute}분${testTime.second}초')),
+          );
+        },
+        child: Icon(Icons.alarm),
+        tooltip: '테스트 알람',
       ),
     );
   }
